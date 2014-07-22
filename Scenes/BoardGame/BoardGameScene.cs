@@ -11,14 +11,12 @@ namespace Hnefatafl.Scenes.BoardGame
 
         public TaflBoard GameBoard { get; private set; }
 
-        private readonly Game _game;
         private IController _mc;
 
         public BoardGameScene(Game game, IRender<BoardGameScene> renderer)
         {
-            _game = game;
             Renderer = renderer;
-            _game.IsMouseVisible = true;
+            game.IsMouseVisible = true;
         }
 
         public void Initialize()
