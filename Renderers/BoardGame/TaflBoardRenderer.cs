@@ -31,21 +31,21 @@ namespace Hnefatafl.Renderers.BoardGame
             {
                 for (var y = 0; y < scene.GameBoard.Positions.GetLength(1); y++)
                 {
-                    var row = scene.GameBoard.Positions[x, y];
+                    var piece = scene.GameBoard.Positions[x, y];
 
                     var drawPosX = (x * PieceSize) + 20;
                     var drawPosY = (y * PieceSize) + 20;
                     
                     Color colour;
-                    if (row is Defender)
+                    if (piece is Defender)
                     {
                         colour = Color.White;
                     }
-                    else if (row is DefenderKing)
+                    else if (piece is DefenderKing)
                     {
                         colour = Color.BlanchedAlmond;
                     }
-                    else if (row is Attacker)
+                    else if (piece is Attacker)
                     {
                         colour = Color.Black;
                     }
@@ -54,10 +54,18 @@ namespace Hnefatafl.Renderers.BoardGame
                         colour = Color.Brown;
                     }
 
+                    if (piece != null && piece.Selected)
+                    {
+                        colour = Color.Red;
+                    }
+
                     var loc = new Rectangle(drawPosX, drawPosY, PieceSize, PieceSize);
                     batch.Draw(_piece, loc, colour);
 
-                    row.Location = loc;
+                    if (piece != null)
+                    {
+                        piece.Location = loc;
+                    }
                 }
             }
         }

@@ -6,6 +6,7 @@ namespace Hnefatafl.Scenes.BoardGame
     public class Piece : IGetDrawn
     {
         public Rectangle Location { get; set; }
+        public bool Selected { get; set; }
     }
 
     public class Defender : Piece
