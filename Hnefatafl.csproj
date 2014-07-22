@@ -40,6 +40,7 @@
     <Compile Include="Fx\SceneRenderer.cs" />
     <Compile Include="Scenes\BoardGame\BoardGameScene.cs" />
     <Compile Include="Fx\IScene.cs" />
+    <Compile Include="Fx\IGetDrawn.cs" />
     <Compile Include="Scenes\BoardGame\Piece.cs" />
     <Compile Include="GameStart.cs" />
     <Compile Include="Program.cs" />

@@ -6,10 +6,10 @@ namespace Hnefatafl.Scenes.BoardGame
 {
     public class BoardGameScene : IScene
     {
-        private readonly Microsoft.Xna.Framework.Game _game;
+        private readonly Game _game;
         public TaflBoard GameBoard;
 
-        public BoardGameScene(Microsoft.Xna.Framework.Game game)
+        public BoardGameScene(Game game)
         {
             _game = game;
             _game.IsMouseVisible = true;

@@ -37,23 +37,27 @@ namespace Hnefatafl.Renderers.BoardGame
                     var drawPosY = (y * PieceSize) + 20;
                     
                     Color colour;
-                    switch (row)
+                    if (row is Defender)
                     {
-                        case Piece.Defender:
-                            colour = Color.White;
-                            break;
-                        case Piece.DefenderKing:
-                            colour = Color.BlanchedAlmond;
-                            break;
-                        case Piece.Attacker:
-                            colour = Color.Black;
-                            break;
-                        default:
-                            colour = Color.Brown;
-                            break;
+                        colour = Color.White;
+                    }
+                    else if (row is DefenderKing)
+                    {
+                        colour = Color.BlanchedAlmond;
+                    }
+                    else if (row is Attacker)
+                    {
+                        colour = Color.Black;
+                    }
+                    else
+                    {
+                        colour = Color.Brown;
                     }
 
-                    batch.Draw(_piece, new Rectangle(drawPosX, drawPosY, PieceSize, PieceSize), colour);
+                    var loc = new Rectangle(drawPosX, drawPosY, PieceSize, PieceSize);
+                    batch.Draw(_piece, loc, colour);
+
+                    row.Location = loc;
                 }
             }
         }

@@ -1,9 +1,22 @@
-﻿namespace Hnefatafl.Scenes.BoardGame
+﻿using Hnefatafl.Fx;
+using Microsoft.Xna.Framework;
+
+namespace Hnefatafl.Scenes.BoardGame
 {
-    public enum Piece
+    public class Piece : IGetDrawn
     {
-        Defender,
-        DefenderKing,
-        Attacker
+        public Rectangle Location { get; set; }
+    }
+
+    public class Defender : Piece
+    {
+    }
+
+    public class DefenderKing : Piece
+    {
+    }
+
+    public class Attacker : Piece
+    {
     }
 }
