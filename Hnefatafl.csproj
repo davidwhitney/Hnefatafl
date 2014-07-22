@@ -44,7 +44,7 @@
     <Compile Include="Fx\IScene.cs" />
     <Compile Include="Fx\IGetDrawn.cs" />
     <Compile Include="Fx\MouseInputController.cs" />
-    <Compile Include="Fx\ISupportMouseInput.cs" />
+    <Compile Include="Fx\ISupportInput.cs" />
     <Compile Include="Scenes\BoardGame\BoardTile.cs" />
     <Compile Include="GameStart.cs" />
     <Compile Include="Program.cs" />

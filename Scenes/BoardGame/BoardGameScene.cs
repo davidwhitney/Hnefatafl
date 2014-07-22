@@ -26,7 +26,10 @@ namespace Hnefatafl.Scenes.BoardGame
         {
             GameBoard = new TaflBoard();
 
-            _mc = new MouseInputController(OnLeftClick);
+            _mc = new MouseInputController
+            {
+                OnLeftClick = OnLeftClick
+            };
         }
 
 
@@ -42,9 +45,9 @@ namespace Hnefatafl.Scenes.BoardGame
         private void OnLeftClick(MouseState mouseState)
         {
             var drawable = FindClickedDrawable(mouseState);
-            if (drawable is ISupportMouseInput)
+            if (drawable is ISupportInput)
             {
-                (drawable as ISupportMouseInput).OnClick();
+                (drawable as ISupportInput).OnSelect();
             }
         }
 

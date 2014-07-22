@@ -3,16 +3,16 @@ using Microsoft.Xna.Framework;
 
 namespace Hnefatafl.Scenes.BoardGame
 {
-    public class BoardTile : IGetDrawn, ISupportMouseInput
+    public class BoardTile : IGetDrawn, ISupportInput
     {
         public Rectangle Location { get; set; }
         public Piece Occupant { get; set; }
 
-        public void OnClick()
+        public void OnSelect()
         {
             if (Occupant != null)
             {
-                Occupant.OnClick();
+                Occupant.OnSelect();
             }
         }
     }
@@ -21,11 +21,11 @@ namespace Hnefatafl.Scenes.BoardGame
     {
     }
 
-    public class Piece : ISupportMouseInput
+    public class Piece : ISupportInput
     {
         public bool Selected { get; set; }
 
-        public void OnClick()
+        public void OnSelect()
         {
             Selected = !Selected;
         }
