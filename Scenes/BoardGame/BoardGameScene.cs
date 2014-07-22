@@ -42,10 +42,9 @@ namespace Hnefatafl.Scenes.BoardGame
         private void OnLeftClick(MouseState mouseState)
         {
             var drawable = FindClickedDrawable(mouseState);
-            if (drawable is Piece)
+            if (drawable is ISupportMouseInput)
             {
-                var piece = drawable as Piece;
-                piece.Selected = !piece.Selected;
+                (drawable as ISupportMouseInput).OnClick();
             }
         }
 
