@@ -35,12 +35,15 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Fx\ICanBeRendered.cs" />
     <Compile Include="Fx\IRender.cs" />
     <Compile Include="Fx\IRender`1.cs" />
     <Compile Include="Fx\SceneRenderer.cs" />
     <Compile Include="Scenes\BoardGame\BoardGameScene.cs" />
     <Compile Include="Fx\IScene.cs" />
     <Compile Include="Fx\IGetDrawn.cs" />
+    <Compile Include="Fx\MouseInputController.cs" />
+    <Compile Include="Fx\ISupportMouseInput.cs" />
     <Compile Include="Scenes\BoardGame\Piece.cs" />
     <Compile Include="GameStart.cs" />
     <Compile Include="Program.cs" />

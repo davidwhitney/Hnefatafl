@@ -1,19 +1,24 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using Hnefatafl.Fx;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 namespace Hnefatafl.Scenes.BoardGame
 {
-    public class BoardGameScene : IScene
+    public class BoardGameScene : IScene<BoardGameScene>, ICanBeRendered
     {
+        public IRender<BoardGameScene> Renderer { get; private set; }
+        IRender IScene.Renderer { get { return Renderer; } }
+
+        public TaflBoard GameBoard { get; private set; }
+
         private readonly Game _game;
-        public TaflBoard GameBoard;
         private MouseInputController _mc;
 
-        public BoardGameScene(Game game)
+        public BoardGameScene(Game game, IRender<BoardGameScene> renderer)
         {
             _game = game;
+            Renderer = renderer;
             _game.IsMouseVisible = true;
         }
 
@@ -64,28 +69,10 @@ namespace Hnefatafl.Scenes.BoardGame
 
             return null;
         }
-    }
 
-    public class MouseInputController
-    {
-        private readonly Action<MouseState> _onLeftClick;
-
-        private MouseState _previousState;
-
-        public MouseInputController(Action<MouseState> onLeftClick)
+        public IList<IGetDrawn> GetDrawables()
         {
-            _onLeftClick = onLeftClick ?? (ms => { });
-        }
-
-        public void ReadInput()
-        {
-            var mouseState = Mouse.GetState();
-            if (mouseState.LeftButton == ButtonState.Released && _previousState.LeftButton == ButtonState.Pressed)
-            {
-                _onLeftClick(mouseState);
-            }
-
-            _previousState = mouseState;
+            return new IGetDrawn[0];
         }
     }
 }

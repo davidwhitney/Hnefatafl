@@ -3,10 +3,15 @@ using Microsoft.Xna.Framework;
 
 namespace Hnefatafl.Scenes.BoardGame
 {
-    public class Piece : IGetDrawn
+    public class Piece : IGetDrawn, ISupportMouseInput
     {
         public Rectangle Location { get; set; }
         public bool Selected { get; set; }
+
+        public void OnClick()
+        {
+            
+        }
     }
 
     public class Defender : Piece

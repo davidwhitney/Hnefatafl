@@ -17,17 +17,17 @@ namespace Hnefatafl
     {
         SpriteBatch _spriteBatch;
 
-        private readonly Dictionary<IScene, IRender> _scenes;
-        public KeyValuePair<IScene, IRender> ActiveScene { get { return _scenes.First(); } } 
+        private readonly List<IScene> _scenes;
+        public IScene ActiveScene { get { return _scenes.First(); } } 
 
         public GameStart()
         {
             var graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
-            _scenes = new Dictionary<IScene, IRender>
+            _scenes = new List<IScene>
             {
-                {new BoardGameScene(this), new TaflBoardRenderer(Content, graphics)}
+                new BoardGameScene(this, new TaflBoardRenderer(Content, graphics))
             };
         }
 
@@ -35,7 +35,7 @@ namespace Hnefatafl
         {
             foreach (var scene in _scenes)
             {
-                scene.Key.Initialize();;
+                scene.Initialize();;
             }
 
             base.Initialize();
@@ -47,7 +47,7 @@ namespace Hnefatafl
 
             foreach (var scene in _scenes)
             {
-                scene.Value.LoadContent();
+                scene.Renderer.LoadContent();
             }
         }
 
@@ -55,13 +55,13 @@ namespace Hnefatafl
         {
             foreach (var scene in _scenes)
             {
-                scene.Value.UnloadContent();
+                scene.Renderer.UnloadContent();
             }
         }
 
         protected override void Update(GameTime gameTime)
         {
-            ActiveScene.Key.Update(gameTime);
+            ActiveScene.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -70,7 +70,7 @@ namespace Hnefatafl
             GraphicsDevice.Clear(Color.Aquamarine);
 
             _spriteBatch.Begin();
-            ActiveScene.Value.Render(ActiveScene.Key, _spriteBatch);
+            ActiveScene.Renderer.Render(ActiveScene, _spriteBatch);
             _spriteBatch.End();
             base.Draw(gameTime);
         }
