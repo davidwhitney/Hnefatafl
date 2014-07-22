@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using Hnefatafl.Fx;
+﻿using Hnefatafl.Fx;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 namespace Hnefatafl.Scenes.BoardGame
 {
-    public class BoardGameScene : IScene<BoardGameScene>, ICanBeRendered
+    public class BoardGameScene : IScene<BoardGameScene>
     {
         public IRender<BoardGameScene> Renderer { get; private set; }
         IRender IScene.Renderer { get { return Renderer; } }
@@ -28,30 +27,26 @@ namespace Hnefatafl.Scenes.BoardGame
 
             _mc = new MouseInputController
             {
-                OnLeftClick = OnLeftClick
+                OnLeftClick = Select
             };
         }
-
-
+        
         public object Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                _game.Exit();
-            
             _mc.ReadInput();
             return null;
         }
 
-        private void OnLeftClick(MouseState mouseState)
+        private void Select(Coords coords)
         {
-            var drawable = FindClickedDrawable(mouseState);
+            var drawable = FindClickedDrawable(coords);
             if (drawable is ISupportInput)
             {
                 (drawable as ISupportInput).OnSelect();
             }
         }
 
-        private IGetDrawn FindClickedDrawable(MouseState ms)
+        private IGetDrawn FindClickedDrawable(Coords coords)
         {
             for (var x = 0; x < GameBoard.Positions.GetLength(0); x++)
             for (var y = 0; y < GameBoard.Positions.GetLength(1); y++)
@@ -62,19 +57,14 @@ namespace Hnefatafl.Scenes.BoardGame
                     continue;
                 }
 
-                if (ms.X >= piece.Location.X && ms.X <= piece.Location.X + piece.Location.Width
-                    && ms.Y >= piece.Location.Y && ms.Y <= piece.Location.Y + piece.Location.Height)
+                if (coords.X >= piece.Location.X && coords.X <= piece.Location.X + piece.Location.Width
+                    && coords.Y >= piece.Location.Y && coords.Y <= piece.Location.Y + piece.Location.Height)
                 {
                     return piece;
                 }
             }
 
             return null;
-        }
-
-        public IList<IGetDrawn> GetDrawables()
-        {
-            return new IGetDrawn[0];
         }
     }
 }

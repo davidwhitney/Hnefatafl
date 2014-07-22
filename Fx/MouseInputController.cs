@@ -7,10 +7,10 @@ namespace Hnefatafl.Fx
     {
         private MouseState _previousState;
 
-        public Action<MouseState> OnMouseUp { get; set; }
-        public Action<MouseState> OnMouseDown { get; set; }
-        public Action<MouseState> OnLeftClick { get; set; }
-        public Action<MouseState> OnRightClick { get; set; }
+        public Action<Coords> OnMouseUp { get; set; }
+        public Action<Coords> OnMouseDown { get; set; }
+        public Action<Coords> OnLeftClick { get; set; }
+        public Action<Coords> OnRightClick { get; set; }
 
         public MouseInputController()
         {
@@ -25,13 +25,13 @@ namespace Hnefatafl.Fx
             var mouseState = Mouse.GetState();
             if (mouseState.LeftButton == ButtonState.Released && _previousState.LeftButton == ButtonState.Pressed)
             {
-                OnMouseUp(mouseState);
-                OnLeftClick(mouseState);
+                OnMouseUp(new Coords(mouseState));
+                OnLeftClick(new Coords(mouseState));
             }
 
             if (mouseState.LeftButton == ButtonState.Pressed && _previousState.LeftButton == ButtonState.Released)
             {
-                OnMouseDown(mouseState);
+                OnMouseDown(new Coords(mouseState));
             }
 
             _previousState = mouseState;

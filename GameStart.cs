@@ -67,7 +67,7 @@ namespace Hnefatafl
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Aquamarine);
+            GraphicsDevice.Clear(Color.WhiteSmoke);
 
             _spriteBatch.Begin();
             ActiveScene.Renderer.Render(ActiveScene, _spriteBatch);

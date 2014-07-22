@@ -35,7 +35,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Fx\ICanBeRendered.cs" />
+    <Compile Include="Fx\Coords.cs" />
     <Compile Include="Fx\IController.cs" />
     <Compile Include="Fx\IRender.cs" />
     <Compile Include="Fx\IRender`1.cs" />
@@ -51,6 +51,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scenes\BoardGame\TaflBoard.cs" />
     <Compile Include="Renderers\BoardGame\TaflBoardRenderer.cs" />
+    <Compile Include="Scenes\HomeScreen\HomeScreen.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
