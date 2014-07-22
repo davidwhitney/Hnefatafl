@@ -7,7 +7,7 @@ namespace Hnefatafl
         [STAThread]
         static void Main()
         {
-            using (var game = new Tafl())
+            using (var game = new GameStart())
             {
                 game.Run();
             }

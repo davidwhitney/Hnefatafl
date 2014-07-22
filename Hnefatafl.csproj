@@ -35,9 +35,17 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Tafl.cs" />
+    <Compile Include="Fx\IRender.cs" />
+    <Compile Include="Fx\IRender`1.cs" />
+    <Compile Include="Fx\SceneRenderer.cs" />
+    <Compile Include="Scenes\BoardGame\BoardGameScene.cs" />
+    <Compile Include="Fx\IScene.cs" />
+    <Compile Include="Scenes\BoardGame\Piece.cs" />
+    <Compile Include="GameStart.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scenes\BoardGame\TaflBoard.cs" />
+    <Compile Include="Renderers\BoardGame\TaflBoardRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
