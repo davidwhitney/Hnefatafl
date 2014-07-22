@@ -7,10 +7,10 @@ namespace Hnefatafl.Scenes.BoardGame
         public TaflBoard()
         {
             Positions = new BoardTile[9, 9];
-            for (var x0 = 0; x0 < Positions.GetLength(0); x0++)
+            for (var x = 0; x < Positions.GetLength(0); x++)
             for (var y = 0; y < Positions.GetLength(1); y++)
             {
-                Positions[x0, y] = new BoardTile();
+                Positions[x, y] = new BoardTile();
             }
 
             Positions[0, 3].Occupant = new Attacker();

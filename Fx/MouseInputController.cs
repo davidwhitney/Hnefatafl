@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Hnefatafl.Fx
 {
-    public class MouseInputController
+    public class MouseInputController : IController
     {
         private readonly Action<MouseState> _onLeftClick;
 

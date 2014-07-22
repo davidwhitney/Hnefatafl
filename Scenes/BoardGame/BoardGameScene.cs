@@ -13,7 +13,7 @@ namespace Hnefatafl.Scenes.BoardGame
         public TaflBoard GameBoard { get; private set; }
 
         private readonly Game _game;
-        private MouseInputController _mc;
+        private IController _mc;
 
         public BoardGameScene(Game game, IRender<BoardGameScene> renderer)
         {
