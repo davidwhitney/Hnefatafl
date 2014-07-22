@@ -27,7 +27,8 @@ namespace Hnefatafl
 
             _scenes = new List<IScene>
             {
-                new BoardGameScene(this, new TaflBoardRenderer(Content, graphics))
+                //new HomeScene(this, new HomeSceneRenderer(Content, graphics)),
+                new BoardGameScene(this, new TaflBoardRenderer(Content, graphics)),
             };
         }
 
