@@ -52,7 +52,9 @@
     <Compile Include="Scenes\BoardGame\TaflBoard.cs" />
     <Compile Include="Renderers\BoardGame\TaflBoardRenderer.cs" />
     <Compile Include="Renderers\HomeScreen\HomeSceneRenderer.cs" />
+    <Compile Include="Scenes\HomeScreen\FullScreenMessage.cs" />
     <Compile Include="Scenes\HomeScreen\HomeScreen.cs" />
+    <Compile Include="Scenes\HomeScreen\RollingTextScene.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
