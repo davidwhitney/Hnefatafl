@@ -2,12 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using Microsoft.Xna.Framework;
 
 namespace Hnefatafl.Scenes.BoardGame
 {
     public class TaflBoard
     {
         public BoardTile[,] Positions { get; set; }
+        public Type Victor { get; set; }
 
         public TaflBoard()
         {
@@ -58,68 +60,80 @@ namespace Hnefatafl.Scenes.BoardGame
                 && OccupantMovementIsLegal(lastSelectedTile, selectedTile))
             {
                 MoveOccupant(lastSelectedTile, selectedTile);
+                var moveResult = CheckForVictories(selectedTile);
 
-                CheckForVictories(selectedTile);
+                if (moveResult.HasValue && moveResult.Value == Outcome.KingDefeated)
+                {
+                    Victor = typeof (Attacker);
+                }
+
                 selectedTile.Selected = false;
             }
 
             lastSelectedTile.Selected = false;
         }
 
-        private void CheckForVics()
+        private Outcome? CheckForVictories(BoardTile selectedTile)
         {
+            foreach (var tile in Tiles)
+            {
+                if (tile.IsOccupied)
+                {
+                    var neighbours = new Neighbours
+                    {
+                        X1 = TryGetTile(tile.X + 1, tile.Y),
+                        XMinus1 = TryGetTile(tile.X - 1, tile.Y),
+                        Y1 = TryGetTile(tile.X, tile.Y + 1),
+                        YMinus1 = TryGetTile(tile.X, tile.Y - 1),
+                    };
 
+                    var xUnfriendly = false;
+                    var yUnfriendly = false;
+
+                    if (!neighbours.X1.OccupantIsFriendly(tile.Occupant)
+                        && !neighbours.XMinus1.OccupantIsFriendly(tile.Occupant))
+                    {
+                        xUnfriendly = true;
+                    }  
+                    
+                    if (!neighbours.Y1.OccupantIsFriendly(tile.Occupant)
+                        && !neighbours.YMinus1.OccupantIsFriendly(tile.Occupant))
+                    {
+                        yUnfriendly = true;
+                    }
+
+                    if (tile.Occupant is DefenderKing
+                        && xUnfriendly
+                        && yUnfriendly)
+                    {
+                        return Outcome.KingDefeated;
+                    }
+
+                    if ((tile.Occupant is Attacker || (tile.Occupant is Defender && !(tile.Occupant is DefenderKing)))
+                        && (xUnfriendly || yUnfriendly))
+                    {
+                        //capture piece
+                        tile.Occupant = null;
+                        return Outcome.PieceTaken;
+                    }
+                }
+            }
+
+            return null;
         }
 
-        private void CheckForVictories(BoardTile selectedTile)
+        private enum Outcome
         {
-            var neighbours = new Neighbours
-            {
-                X1 = TryGetTile(selectedTile.X + 1, selectedTile.Y),
-                X2 = TryGetTile(selectedTile.X + 2, selectedTile.Y),
-                XMinus1 = TryGetTile(selectedTile.X - 1, selectedTile.Y),
-                XMinus2 = TryGetTile(selectedTile.X - 2, selectedTile.Y),
-                Y1 = TryGetTile(selectedTile.X, selectedTile.Y + 1),
-                Y2 = TryGetTile(selectedTile.X, selectedTile.Y + 2),
-                YMinus1 = TryGetTile(selectedTile.X, selectedTile.Y - 1),
-                YMinus2 = TryGetTile(selectedTile.X, selectedTile.Y - 2),
-            };
-
-            if (!neighbours.X1.OccupantIsFriendly(selectedTile.Occupant)
-                && neighbours.X2.OccupantIsFriendly(selectedTile.Occupant))
-            {
-                neighbours.X1.Occupant = null;
-            }
-
-            if (!neighbours.XMinus1.OccupantIsFriendly(selectedTile.Occupant)
-                && neighbours.XMinus2.OccupantIsFriendly(selectedTile.Occupant))
-            {
-                neighbours.XMinus1.Occupant = null;
-            }
-
-            if (!neighbours.Y1.OccupantIsFriendly(selectedTile.Occupant)
-                && neighbours.Y2.OccupantIsFriendly(selectedTile.Occupant))
-            {
-                neighbours.Y1.Occupant = null;
-            }
-
-            if (!neighbours.YMinus1.OccupantIsFriendly(selectedTile.Occupant)
-                && neighbours.YMinus2.OccupantIsFriendly(selectedTile.Occupant))
-            {
-                neighbours.YMinus1.Occupant = null;
-            }
+            KingDefeated,
+            PieceTaken,
         }
 
         private class Neighbours
         {
             public BoardTile X1 { get; set; }
-            public BoardTile X2 { get; set; }
             public BoardTile Y1 { get; set; }
-            public BoardTile Y2 { get; set; }
             public BoardTile XMinus1 { get; set; }
-            public BoardTile XMinus2 { get; set; }
             public BoardTile YMinus1 { get; set; }
-            public BoardTile YMinus2 { get; set; }
         }
 
         private BoardTile TryGetTile(int x, int y)

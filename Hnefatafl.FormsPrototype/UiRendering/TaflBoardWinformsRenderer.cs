@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Hnefatafl.Scenes.BoardGame;
+using Microsoft.Xna.Framework;
+using Color = System.Drawing.Color;
+using Point = System.Drawing.Point;
 
 namespace Hnefatafl.FormsPrototype.UiRendering
 {
@@ -21,6 +23,13 @@ namespace Hnefatafl.FormsPrototype.UiRendering
 
         public void Render(TaflBoard gameBoard, Panel targetPanel)
         {
+            if (gameBoard.Victor != null)
+            {
+                targetPanel.Controls.Clear();
+                targetPanel.Controls.Add(new Label{Text = "Game over " + gameBoard.Victor.Name + " wins.", Width = 400});
+                return;
+            }
+
             const int borderOffset = 0;
             const int pieceSize = 45;
             const int scale = 1;

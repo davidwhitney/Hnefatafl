@@ -35,7 +35,7 @@ namespace Hnefatafl.Scenes.BoardGame
         {
             if (!IsOccupied)
             {
-                return false;
+                return true;
             }
 
             if (Occupant.GetType() == occupant.GetType())
