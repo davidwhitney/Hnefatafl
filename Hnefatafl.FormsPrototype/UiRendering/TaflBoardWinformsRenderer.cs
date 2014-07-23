@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using Hnefatafl.GameCore;
 using Hnefatafl.Scenes.BoardGame;
 using Microsoft.Xna.Framework;
 using Color = System.Drawing.Color;
@@ -50,7 +51,6 @@ namespace Hnefatafl.FormsPrototype.UiRendering
                 {
                     panel = new Panel { Location = new Point(drawPosX, drawPosY) };
                     panel.Click += panel_Click;
-                    panel.Controls.Add(new Label {Text = boardTile.X + "," + boardTile.Y});
                     
                     _lookup.Add(panel, thisLocation);
                     targetPanel.Controls.Add(panel);
@@ -79,22 +79,40 @@ namespace Hnefatafl.FormsPrototype.UiRendering
         private static Color DetermineTileColour(BoardTile boardTile)
         {
             Color colour;
-            if (boardTile.Occupant is DefenderKing)
-            {
-                colour = Color.BlanchedAlmond;
-            }
-            else if (boardTile.Occupant is Defender)
-            {
-                colour = Color.White;
-            }
 
-            else if (boardTile.Occupant is Attacker)
+            if (boardTile.IsOccupied)
             {
-                colour = Color.Black;
+                if (boardTile.Occupant is DefenderKing)
+                {
+                    colour = Color.BlanchedAlmond;
+                }
+                else if (boardTile.Occupant is Defender)
+                {
+                    colour = Color.White;
+                }
+                else if (boardTile.Occupant is Attacker)
+                {
+                    colour = Color.Black;
+                }
+                else
+                {
+                    colour = Color.LightGreen;
+                }
             }
             else
             {
-                colour = Color.Brown;
+                switch (boardTile.TileType)
+                {
+                    case TileType.Castle:
+                        colour = Color.Silver;
+                        break;
+                    case TileType.AttackerTerritory:
+                        colour = Color.DarkGreen;
+                        break;
+                    default:
+                        colour = Color.LightGreen;
+                        break;
+                }
             }
 
             return colour;

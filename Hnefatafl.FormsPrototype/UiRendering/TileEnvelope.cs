@@ -1,3 +1,4 @@
+using Hnefatafl.GameCore;
 using Hnefatafl.Scenes.BoardGame;
 
 namespace Hnefatafl.FormsPrototype.UiRendering

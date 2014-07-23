@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Hnefatafl.Fx;
+using Hnefatafl.GameCore;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 

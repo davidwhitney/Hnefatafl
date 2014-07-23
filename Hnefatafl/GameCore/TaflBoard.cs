@@ -2,9 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Microsoft.Xna.Framework;
 
-namespace Hnefatafl.Scenes.BoardGame
+namespace Hnefatafl.GameCore
 {
     public class TaflBoard
     {
@@ -33,17 +32,19 @@ namespace Hnefatafl.Scenes.BoardGame
                 for (var y = 0; y < items.Length; y++)
                 {
                     var item = items[y];
-                    var tile = new BoardTile(x, y);
+                    var tile = new BoardTile(x, y, TileType.Neutral);
                     switch (item)
                     {
                         case "A":
                             tile.Occupant = new Attacker();
+                            tile.TileType = TileType.AttackerTerritory;
                             break;
                         case "D":
                             tile.Occupant = new Defender();
                             break;
                         case "K":
                             tile.Occupant = new DefenderKing();
+                            tile.TileType = TileType.Castle;
                             break;
                     }
                     Positions[x, y] = tile;
@@ -53,7 +54,7 @@ namespace Hnefatafl.Scenes.BoardGame
 
         public void SelectTile(BoardTile selectedTile)
         {
-            var lastSelectedTile = Tiles.FirstOrDefault(t => t.Selected) ?? new BoardTile(-1, -1);
+            var lastSelectedTile = Tiles.FirstOrDefault(t => t.Selected) ?? new BoardTile(-1, -1, TileType.Neutral);
             selectedTile.OnSelect();
 
             if (UserAttemptedToMoveOccupant(lastSelectedTile, selectedTile) 
@@ -65,6 +66,11 @@ namespace Hnefatafl.Scenes.BoardGame
                 if (moveResult.HasValue && moveResult.Value == Outcome.KingDefeated)
                 {
                     Victor = typeof (Attacker);
+                }
+
+                if (moveResult.HasValue && moveResult.Value == Outcome.PieceTaken)
+                {
+                    
                 }
 
                 selectedTile.Selected = false;
@@ -122,24 +128,10 @@ namespace Hnefatafl.Scenes.BoardGame
             return null;
         }
 
-        private enum Outcome
-        {
-            KingDefeated,
-            PieceTaken,
-        }
-
-        private class Neighbours
-        {
-            public BoardTile X1 { get; set; }
-            public BoardTile Y1 { get; set; }
-            public BoardTile XMinus1 { get; set; }
-            public BoardTile YMinus1 { get; set; }
-        }
-
         private BoardTile TryGetTile(int x, int y)
         {
             try { return Positions[x, y]; }
-            catch { return new BoardTile(-1, -1); }
+            catch { return new BoardTile(-1, -1, TileType.Neutral); }
         }
 
         private static bool UserAttemptedToMoveOccupant(BoardTile @from, BoardTile to)
@@ -182,7 +174,18 @@ namespace Hnefatafl.Scenes.BoardGame
                 {
                     return false;
                 }
+
+                if (!cell.CanOccupy(lastSelectedTile.Occupant))
+                {
+                    return false;
+                }
             }
+
+            if (!selectedTile.CanOccupy(lastSelectedTile.Occupant))
+            {
+                return false;
+            }
+
             return true;
         }
 

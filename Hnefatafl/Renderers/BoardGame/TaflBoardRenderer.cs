@@ -1,4 +1,5 @@
 ﻿using Hnefatafl.Fx;
+using Hnefatafl.GameCore;
 using Hnefatafl.Scenes.BoardGame;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;

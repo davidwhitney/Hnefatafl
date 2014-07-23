@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Hnefatafl.FormsPrototype.UiRendering;
+using Hnefatafl.GameCore;
 using Hnefatafl.Scenes.BoardGame;
 
 namespace Hnefatafl.FormsPrototype

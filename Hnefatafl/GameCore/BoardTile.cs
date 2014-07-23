@@ -1,32 +1,35 @@
-﻿using Hnefatafl.Fx;
+﻿using System;
+using System.Collections.Generic;
+using Hnefatafl.Fx;
 using Microsoft.Xna.Framework;
 
-namespace Hnefatafl.Scenes.BoardGame
+namespace Hnefatafl.GameCore
 {
-    public enum TileType
-    {
-        Neutral,
-        Castle,
-        AttackerTerritory
-    }
-
     public class BoardTile : IGetDrawn, ISupportInput
     {
         public int X { get; set; }
         public int Y { get; set; }
 
-        public BoardTile(int x, int y)
-        {
-            X = x;
-            Y = y;
-        }
-
+        public TileType TileType { get; set; }
         public Rectangle Location { get; set; }
         public Piece Occupant { get; set; }
 
         public bool Selected { get; set; }
-
         public bool IsOccupied { get { return Occupant != null; } }
+
+        private readonly Dictionary<TileType, List<Type>> _occupationRules = new Dictionary<TileType, List<Type>>
+        {
+            {TileType.AttackerTerritory, new List<Type> { typeof(Attacker), typeof(Defender) }},
+            {TileType.Castle, new List<Type> { typeof(DefenderKing) }},
+            {TileType.Neutral, new List<Type> { typeof(Attacker), typeof(DefenderKing), typeof(Defender) }},
+        }; 
+
+        public BoardTile(int x, int y, TileType tileType)
+        {
+            X = x;
+            Y = y;
+            TileType = tileType;
+        }
 
         public void OnSelect()
         {
@@ -58,24 +61,10 @@ namespace Hnefatafl.Scenes.BoardGame
 
             return false;
         }
-    }
 
-    public class Defender : Piece
-    {
-    }
-
-    public class Piece : ISupportInput
-    {
-        public void OnSelect()
+        public bool CanOccupy(Piece occupant)
         {
+            return _occupationRules[TileType].Contains(occupant.GetType());
         }
-    }
-
-    public class DefenderKing : Defender
-    {
-    }
-
-    public class Attacker : Piece
-    {
     }
 }
