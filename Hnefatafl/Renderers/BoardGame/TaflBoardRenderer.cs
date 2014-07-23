@@ -59,7 +59,7 @@ namespace Hnefatafl.Renderers.BoardGame
                     colour = Color.Brown;
                 }
 
-                if (boardTile.Occupant != null && boardTile.Occupant.Selected)
+                if (boardTile.Occupant != null && boardTile.Selected)
                 {
                     colour = Color.Red;
                 }

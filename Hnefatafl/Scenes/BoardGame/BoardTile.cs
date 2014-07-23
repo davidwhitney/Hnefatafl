@@ -8,8 +8,12 @@ namespace Hnefatafl.Scenes.BoardGame
         public Rectangle Location { get; set; }
         public Piece Occupant { get; set; }
 
+        public bool Selected { get; set; }
+
         public void OnSelect()
         {
+            Selected = !Selected;
+
             if (Occupant != null)
             {
                 Occupant.OnSelect();
@@ -23,11 +27,8 @@ namespace Hnefatafl.Scenes.BoardGame
 
     public class Piece : ISupportInput
     {
-        public bool Selected { get; set; }
-
         public void OnSelect()
         {
-            Selected = !Selected;
         }
     }
 
