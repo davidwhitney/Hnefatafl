@@ -23,19 +23,14 @@ namespace Hnefatafl.FormsPrototype.UiRendering
         {
             const int borderOffset = 0;
             const int pieceSize = 45;
-
             const int scale = 1;
+            const int scaledPieceSize = pieceSize * scale;
 
-            for (var x = 0; x < gameBoard.Positions.GetLength(0); x++)
-            for (var y = 0; y < gameBoard.Positions.GetLength(1); y++)
+            foreach (var boardTile in gameBoard.Tiles)
             {
-                var boardTile = gameBoard.Positions[x, y];
-                var thisLocation = new TileEnvelope(x, y, boardTile);
-
-                var scaledPieceSize = pieceSize * scale;
-
-                var drawPosX = (x * scaledPieceSize) + borderOffset;
-                var drawPosY = (y * scaledPieceSize) + borderOffset;
+                var thisLocation = new TileEnvelope(boardTile.X, boardTile.Y, boardTile);
+                var drawPosX = (boardTile.X * scaledPieceSize) + borderOffset;
+                var drawPosY = (boardTile.Y * scaledPieceSize) + borderOffset;
 
                 Panel panel;
                 if (_lookup.ContainsValue(thisLocation))
@@ -74,14 +69,15 @@ namespace Hnefatafl.FormsPrototype.UiRendering
         private static Color DetermineTileColour(BoardTile boardTile)
         {
             Color colour;
-            if (boardTile.Occupant is GameBoard)
-            {
-                colour = Color.White;
-            }
-            else if (boardTile.Occupant is DefenderKing)
+            if (boardTile.Occupant is DefenderKing)
             {
                 colour = Color.BlanchedAlmond;
             }
+            else if (boardTile.Occupant is Defender)
+            {
+                colour = Color.White;
+            }
+
             else if (boardTile.Occupant is Attacker)
             {
                 colour = Color.Black;

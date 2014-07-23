@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Hnefatafl.Fx;
+﻿using Hnefatafl.Fx;
 using Hnefatafl.Scenes.BoardGame;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -29,26 +28,22 @@ namespace Hnefatafl.Renderers.BoardGame
         {
             const int borderOffset = 50;
             const int pieceSize = 45;
-
             const int scale = 1;
+            const int scaledPieceSize = pieceSize * scale;
 
-            for (var x = 0; x < scene.GameBoard.Positions.GetLength(0); x++)
-            for (var y = 0; y < scene.GameBoard.Positions.GetLength(1); y++)
+            foreach (var boardTile in scene.GameBoard.Tiles)
             {
-                var boardTile = scene.GameBoard.Positions[x, y];
-                var scaledPieceSize = pieceSize*scale;
-
-                var drawPosX = (x*scaledPieceSize) + borderOffset;
-                var drawPosY = (y*scaledPieceSize) + borderOffset;
+                var drawPosX = (boardTile.X * scaledPieceSize) + borderOffset;
+                var drawPosY = (boardTile.Y * scaledPieceSize) + borderOffset;
 
                 Color colour;
-                if (boardTile.Occupant is GameBoard)
-                {
-                    colour = Color.White;
-                }
-                else if (boardTile.Occupant is DefenderKing)
+                if (boardTile.Occupant is DefenderKing)
                 {
                     colour = Color.BlanchedAlmond;
+                }
+                else if (boardTile.Occupant is Defender)
+                {
+                    colour = Color.White;
                 }
                 else if (boardTile.Occupant is Attacker)
                 {

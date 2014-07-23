@@ -30,9 +30,13 @@ namespace Hnefatafl.FormsPrototype
             // Create new game
             _boardData = new TaflBoard();
             _renderer = new TaflBoardWinformsRenderer();
+            panel1.Controls.Clear();
+            panel1.Visible = false;
 
             _renderer.Render(_boardData, panel1);
             _renderer.TileClicked = OnTileClick;
+
+            panel1.Visible = true;
         }
 
         private void OnTileClick(TileEnvelope loc, Panel uiControl)

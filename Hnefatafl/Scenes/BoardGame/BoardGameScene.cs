@@ -1,4 +1,5 @@
-﻿using Hnefatafl.Fx;
+﻿using System.Linq;
+using Hnefatafl.Fx;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
@@ -49,15 +50,8 @@ namespace Hnefatafl.Scenes.BoardGame
 
         private IGetDrawn FindClickedDrawable(Coords coords)
         {
-            for (var x = 0; x < GameBoard.Positions.GetLength(0); x++)
-            for (var y = 0; y < GameBoard.Positions.GetLength(1); y++)
+            foreach (var piece in GameBoard.Tiles.Where(x=>x.Occupant != null))
             {
-                var piece = GameBoard.Positions[x, y];
-                if (piece == null)
-                {
-                    continue;
-                }
-
                 if (coords.X >= piece.Location.X && coords.X <= piece.Location.X + piece.Location.Width
                     && coords.Y >= piece.Location.Y && coords.Y <= piece.Location.Y + piece.Location.Height)
                 {
