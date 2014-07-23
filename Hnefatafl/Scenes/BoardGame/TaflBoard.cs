@@ -33,14 +33,14 @@ namespace Hnefatafl.Scenes.BoardGame
             Positions[5, 0].Occupant = new Attacker();
             Positions[4, 1].Occupant = new Attacker();
 
-            Positions[2, 4].Occupant = new Defender();
-            Positions[3, 4].Occupant = new Defender();
-            Positions[5, 4].Occupant = new Defender();
-            Positions[6, 4].Occupant = new Defender();
-            Positions[4, 2].Occupant = new Defender();
-            Positions[4, 3].Occupant = new Defender();
-            Positions[4, 5].Occupant = new Defender();
-            Positions[4, 6].Occupant = new Defender();
+            Positions[2, 4].Occupant = new GameBoard();
+            Positions[3, 4].Occupant = new GameBoard();
+            Positions[5, 4].Occupant = new GameBoard();
+            Positions[6, 4].Occupant = new GameBoard();
+            Positions[4, 2].Occupant = new GameBoard();
+            Positions[4, 3].Occupant = new GameBoard();
+            Positions[4, 5].Occupant = new GameBoard();
+            Positions[4, 6].Occupant = new GameBoard();
 
             Positions[4, 4].Occupant = new DefenderKing();
         }

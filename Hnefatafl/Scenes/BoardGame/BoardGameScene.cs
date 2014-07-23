@@ -35,12 +35,15 @@ namespace Hnefatafl.Scenes.BoardGame
             return null;
         }
 
+        private object _selectedItem;
         private void Select(Coords coords)
         {
-            var drawable = FindClickedDrawable(coords);
-            if (drawable is ISupportInput)
+            var thisItem = FindClickedDrawable(coords);
+            _selectedItem = thisItem;
+
+            if (_selectedItem is ISupportInput)
             {
-                (drawable as ISupportInput).OnSelect();
+                (_selectedItem as ISupportInput).OnSelect();
             }
         }
 

@@ -42,7 +42,7 @@ namespace Hnefatafl.Renderers.BoardGame
                 var drawPosY = (y*scaledPieceSize) + borderOffset;
 
                 Color colour;
-                if (boardTile.Occupant is Defender)
+                if (boardTile.Occupant is GameBoard)
                 {
                     colour = Color.White;
                 }

@@ -17,7 +17,7 @@ namespace Hnefatafl.Scenes.BoardGame
         }
     }
 
-    public class Defender : Piece
+    public class GameBoard : Piece
     {
     }
 
