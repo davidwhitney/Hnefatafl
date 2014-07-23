@@ -3,6 +3,13 @@ using Microsoft.Xna.Framework;
 
 namespace Hnefatafl.Scenes.BoardGame
 {
+    public enum TileType
+    {
+        Neutral,
+        Castle,
+        AttackerTerritory
+    }
+
     public class BoardTile : IGetDrawn, ISupportInput
     {
         public int X { get; set; }

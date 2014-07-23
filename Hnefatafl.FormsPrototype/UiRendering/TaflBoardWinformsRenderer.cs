@@ -38,8 +38,8 @@ namespace Hnefatafl.FormsPrototype.UiRendering
             foreach (var boardTile in gameBoard.Tiles)
             {
                 var thisLocation = new TileEnvelope(boardTile.X, boardTile.Y, boardTile);
-                var drawPosX = (boardTile.X * scaledPieceSize) + borderOffset;
-                var drawPosY = (boardTile.Y * scaledPieceSize) + borderOffset;
+                var drawPosX = (boardTile.Y * scaledPieceSize) + borderOffset;
+                var drawPosY = (boardTile.X * scaledPieceSize) + borderOffset;
 
                 Panel panel;
                 if (_lookup.ContainsValue(thisLocation))
@@ -50,7 +50,8 @@ namespace Hnefatafl.FormsPrototype.UiRendering
                 {
                     panel = new Panel { Location = new Point(drawPosX, drawPosY) };
                     panel.Click += panel_Click;
-                   
+                    panel.Controls.Add(new Label {Text = boardTile.X + "," + boardTile.Y});
+                    
                     _lookup.Add(panel, thisLocation);
                     targetPanel.Controls.Add(panel);
                 }
