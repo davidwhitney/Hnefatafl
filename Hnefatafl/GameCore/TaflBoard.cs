@@ -12,23 +12,31 @@ namespace Hnefatafl.GameCore
         public Type Victor { get; set; }
         public int PossibleEscapeVectors { get; private set; }
 
+        public int BoardXSize { get; private set; }
+        private int BoardXSizeZeroBased { get { return BoardXSize - 1; } }
+        public int BoardYSize { get; private set; }
+        private int BoardYSizeZeroBased { get { return BoardYSize - 1; } }
+
         public TaflBoard()
         {
             var boardTemplate = new List<string>
             {
-                {"0 0 0 A A A 0 0 0"},
-                {"0 0 0 0 A 0 0 0 0"},
-                {"0 0 0 0 D 0 0 0 0"},
-                {"A 0 0 0 D 0 0 0 A"},
-                {"A A D D K D D A A"},
-                {"A 0 0 0 D 0 0 0 A"},
-                {"0 0 0 0 D 0 0 0 0"},
-                {"0 0 0 0 A 0 0 0 0"},
-                {"0 0 0 A A A 0 0 0"},
+                "0 0 0 A A A 0 0 0",
+                "0 0 0 0 A 0 0 0 0",
+                "0 0 0 0 D 0 0 0 0",
+                "A 0 0 0 D 0 0 0 A",
+                "A A D D K D D A A",
+                "A 0 0 0 D 0 0 0 A",
+                "0 0 0 0 D 0 0 0 0",
+                "0 0 0 0 A 0 0 0 0",
+                "0 0 0 A A A 0 0 0",
             };
 
-            Positions = new BoardTile[boardTemplate[0].Split().Length, boardTemplate.Count];
-            for (var x = 0; x < boardTemplate.Count; x++)
+            BoardXSize = boardTemplate.First().Split().Length;
+            BoardYSize = boardTemplate.Count;
+            Positions = new BoardTile[BoardXSize, BoardYSize];
+
+            for (var x = 0; x < BoardXSize; x++)
             {
                 var items = boardTemplate[x].Split();
                 for (var y = 0; y < items.Length; y++)
@@ -72,7 +80,7 @@ namespace Hnefatafl.GameCore
 
                 var kingsTile = Tiles.Single(x => x.Occupant is DefenderKing);
                 PossibleEscapeVectors = KingEscapeVectors(kingsTile);
-                if (PossibleEscapeVectors > 1 || kingsTile.X == 0 || kingsTile.X == 8 || kingsTile.Y == 0 || kingsTile.Y == 8)
+                if (PossibleEscapeVectors > 1 || kingsTile.X == 0 || kingsTile.X == BoardXSizeZeroBased || kingsTile.Y == 0 || kingsTile.Y == BoardYSizeZeroBased)
                 {
                     Victor = typeof (DefenderKing);
                 }
@@ -88,9 +96,9 @@ namespace Hnefatafl.GameCore
             return new List<BoardTile>
             {
                 Positions[kingsTile.X, 0],
-                Positions[kingsTile.X, 8],
+                Positions[kingsTile.X, BoardYSizeZeroBased],
                 Positions[0, kingsTile.Y],
-                Positions[8, kingsTile.Y]
+                Positions[BoardXSizeZeroBased, kingsTile.Y]
             }.Count(escape => OccupantMovementIsLegal(kingsTile, escape));
         }
 
@@ -145,7 +153,7 @@ namespace Hnefatafl.GameCore
 
         private BoardTile TryGetTile(int x, int y)
         {
-            if (x < 0 || x > 8 || y < 0 || y > 8)
+            if (x < 0 || x > BoardXSizeZeroBased || y < 0 || y > BoardYSizeZeroBased)
             {
                 return new BoardTile(-1, -1, TileType.Neutral);
             }
@@ -222,7 +230,10 @@ namespace Hnefatafl.GameCore
                 for (var x = 0; x < Positions.GetLength(0); x++)
                 for (var y = 0; y < Positions.GetLength(1); y++)
                 {
-                    yield return Positions[x, y];
+                    if (Positions[x, y] != null)
+                    {
+                        yield return Positions[x, y];
+                    }
                 }
             }
         }

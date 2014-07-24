@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
 using System.Windows.Forms;
 using Hnefatafl.GameCore;
-using Microsoft.Xna.Framework;
 using Color = System.Drawing.Color;
 using Point = System.Drawing.Point;
 
