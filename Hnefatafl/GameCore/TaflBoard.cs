@@ -70,13 +70,9 @@ namespace Hnefatafl.GameCore
                     Victor = typeof (Attacker);
                 }
 
-                if (moveResult.HasValue && moveResult.Value == Outcome.PieceTaken)
-                {
-                    
-                }
-
-                PossibleEscapeVectors = KingEscapeVectors();
-                if (PossibleEscapeVectors > 1)
+                var kingsTile = Tiles.Single(x => x.Occupant is DefenderKing);
+                PossibleEscapeVectors = KingEscapeVectors(kingsTile);
+                if (PossibleEscapeVectors > 1 || kingsTile.X == 0 || kingsTile.X == 8 || kingsTile.Y == 0 || kingsTile.Y == 8)
                 {
                     Victor = typeof (DefenderKing);
                 }
@@ -87,10 +83,8 @@ namespace Hnefatafl.GameCore
             lastSelectedTile.Selected = false;
         }
 
-        private int KingEscapeVectors()
+        private int KingEscapeVectors(BoardTile kingsTile)
         {
-            var kingsTile = Tiles.Single(x => x.Occupant is DefenderKing);
-
             return new List<BoardTile>
             {
                 Positions[kingsTile.X, 0],

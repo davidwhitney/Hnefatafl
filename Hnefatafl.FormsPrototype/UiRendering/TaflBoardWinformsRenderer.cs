@@ -33,13 +33,6 @@ namespace Hnefatafl.FormsPrototype.UiRendering
                 messages.Text = "";
             }
             
-            if (gameBoard.Victor != null)
-            {
-                targetPanel.Enabled = false;
-                messages.Text = "Game over " + gameBoard.Victor.Name + " wins.";
-                return;
-            }
-            
             const int borderOffset = 0;
             const int pieceSize = 45;
             const int scale = 1;
@@ -68,6 +61,12 @@ namespace Hnefatafl.FormsPrototype.UiRendering
                 panel.Height = scaledPieceSize;
 
                 RefreshTile(panel, boardTile);
+            }
+
+            if (gameBoard.Victor != null)
+            {
+                targetPanel.Enabled = false;
+                messages.Text = "Game over " + gameBoard.Victor.Name + " wins.";
             }
         }
 
