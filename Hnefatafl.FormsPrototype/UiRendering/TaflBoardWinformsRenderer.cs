@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Windows.Forms;
 using Hnefatafl.GameCore;
-using Hnefatafl.Scenes.BoardGame;
 using Microsoft.Xna.Framework;
 using Color = System.Drawing.Color;
 using Point = System.Drawing.Point;
@@ -22,15 +22,24 @@ namespace Hnefatafl.FormsPrototype.UiRendering
             _lookup = new Dictionary<Panel, TileEnvelope>();
         }
 
-        public void Render(TaflBoard gameBoard, Panel targetPanel)
+        public void Render(TaflBoard gameBoard, Panel targetPanel, Label messages)
         {
+            if (gameBoard.PossibleEscapeVectors == 1)
+            {
+                messages.Text = "Raichi";
+            }
+            else
+            {
+                messages.Text = "";
+            }
+            
             if (gameBoard.Victor != null)
             {
-                targetPanel.Controls.Clear();
-                targetPanel.Controls.Add(new Label{Text = "Game over " + gameBoard.Victor.Name + " wins.", Width = 400});
+                targetPanel.Enabled = false;
+                messages.Text = "Game over " + gameBoard.Victor.Name + " wins.";
                 return;
             }
-
+            
             const int borderOffset = 0;
             const int pieceSize = 45;
             const int scale = 1;

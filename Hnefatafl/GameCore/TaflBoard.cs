@@ -8,7 +8,9 @@ namespace Hnefatafl.GameCore
     public class TaflBoard
     {
         public BoardTile[,] Positions { get; set; }
+        
         public Type Victor { get; set; }
+        public int PossibleEscapeVectors { get; private set; }
 
         public TaflBoard()
         {
@@ -73,10 +75,29 @@ namespace Hnefatafl.GameCore
                     
                 }
 
+                PossibleEscapeVectors = KingEscapeVectors();
+                if (PossibleEscapeVectors > 1)
+                {
+                    Victor = typeof (DefenderKing);
+                }
+
                 selectedTile.Selected = false;
             }
 
             lastSelectedTile.Selected = false;
+        }
+
+        private int KingEscapeVectors()
+        {
+            var kingsTile = Tiles.Single(x => x.Occupant is DefenderKing);
+
+            return new List<BoardTile>
+            {
+                Positions[kingsTile.X, 0],
+                Positions[kingsTile.X, 8],
+                Positions[0, kingsTile.Y],
+                Positions[8, kingsTile.Y]
+            }.Count(escape => OccupantMovementIsLegal(kingsTile, escape));
         }
 
         private Outcome? CheckForVictories(BoardTile selectedTile)
@@ -130,6 +151,11 @@ namespace Hnefatafl.GameCore
 
         private BoardTile TryGetTile(int x, int y)
         {
+            if (x < 0 || x > 8 || y < 0 || y > 8)
+            {
+                return new BoardTile(-1, -1, TileType.Neutral);
+            }
+
             try { return Positions[x, y]; }
             catch { return new BoardTile(-1, -1, TileType.Neutral); }
         }
@@ -154,17 +180,17 @@ namespace Hnefatafl.GameCore
             return false;
         }
 
-        private static bool CheckPathIsClear(BoardTile lastSelectedTile, BoardTile selectedTile, Expression<Func<BoardTile, int>> distanceBetween, Func<int, BoardTile> getCell)
+        private static bool CheckPathIsClear(BoardTile @from, BoardTile destination, Expression<Func<BoardTile, int>> distanceBetween, Func<int, BoardTile> getCell)
         {
             var getDiscriminatingProperty = distanceBetween.Compile();
 
-            var smallestDimension = selectedTile;
-            var largestDimension = lastSelectedTile;
+            var smallestDimension = destination;
+            var largestDimension = @from;
 
-            if (getDiscriminatingProperty(lastSelectedTile) < getDiscriminatingProperty(selectedTile))
+            if (getDiscriminatingProperty(@from) < getDiscriminatingProperty(destination))
             {
-                smallestDimension = lastSelectedTile;
-                largestDimension = selectedTile;
+                smallestDimension = @from;
+                largestDimension = destination;
             }
 
             for (var iterator = getDiscriminatingProperty(smallestDimension) + 1; iterator < getDiscriminatingProperty(largestDimension); iterator++)
@@ -175,13 +201,13 @@ namespace Hnefatafl.GameCore
                     return false;
                 }
 
-                if (!cell.CanOccupy(lastSelectedTile.Occupant))
+                if (!cell.CanOccupy(@from.Occupant))
                 {
                     return false;
                 }
             }
 
-            if (!selectedTile.CanOccupy(lastSelectedTile.Occupant))
+            if (destination.IsOccupied || !destination.CanOccupy(@from.Occupant))
             {
                 return false;
             }

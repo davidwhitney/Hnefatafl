@@ -33,8 +33,10 @@ namespace Hnefatafl.FormsPrototype
             _renderer = new TaflBoardWinformsRenderer();
             panel1.Controls.Clear();
             panel1.Visible = false;
+            panel1.Enabled = true;
+            messages.Text = "";
 
-            _renderer.Render(_boardData, panel1);
+            _renderer.Render(_boardData, panel1, messages);
             _renderer.TileClicked = OnTileClick;
 
             panel1.Visible = true;
@@ -43,7 +45,7 @@ namespace Hnefatafl.FormsPrototype
         private void OnTileClick(TileEnvelope loc, Panel uiControl)
         {
             _boardData.SelectTile(loc.BoardTile);
-            _renderer.Render(_boardData, panel1);
+            _renderer.Render(_boardData, panel1, messages);
         }
     }
 }
